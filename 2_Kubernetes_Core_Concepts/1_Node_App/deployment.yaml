@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: second-app
+  labels:
+    group: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: second-app
+      tier: backend-app
+  template:
+    metadata:
+      labels:
+          app: second-app
+          tier: backend-app
+    spec:
+      containers:
+        - name: second-node-app
+          image: kubearsh9598/kube-node-app:2
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            periodSeconds: 10
+            initialDelaySeconds: 5
